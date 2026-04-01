@@ -1,20 +1,13 @@
-version: '3.8'
-
 services:
   evolution_api:
-    image: atendareal/evolution-api:latest
+    image: neutrobox/evolutionapi:v2.3.6-modified
     container_name: evolution_api
     restart: always
+    entrypoint: ["node", "dist/main.js"]
+    env_file:
+      - .env
     ports:
-      - "8080:8080" # Puerto donde escuchará la API
-    environment:
-      - SERVER_URL=http://tu_ip_o_dominio:8080
-      - DOCKER_NAME=evolution_api
-      - AUTHENTICATION_TYPE=apikey
-      - AUTHENTICATION_API_KEY=TuClaveSegura123 # ¡Cambia esto!
-      - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_HOST=redis_evolution
-      - CACHE_REDIS_PORT=6379
+      - "8080:8080"
     volumes:
       - evolution_instances:/evolution/instances
     networks:
@@ -33,3 +26,4 @@ networks:
 
 volumes:
   evolution_instances:
+    driver: local
